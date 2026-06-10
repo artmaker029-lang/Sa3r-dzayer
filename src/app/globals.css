@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-primary: #006233;
+  --color-primary-light: #008a47;
+  --color-primary-dark: #004a26;
+  --color-secondary: #D21034;
+  --color-secondary-light: #e81e45;
+  --color-accent: #F5A623;
+  --color-background: #f8faf9;
+  --color-foreground: #1a1a2e;
+  --color-muted: #6b7280;
+  --color-card: #ffffff;
+  --color-border: #e5e7eb;
+  --font-sans: "Cairo", "Tahoma", "Arial", sans-serif;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
+
+.rtl {
+  direction: rtl;
+}
+
+.ltr {
+  direction: ltr;
+}
+
+.search-gradient {
+  background: linear-gradient(135deg, #006233 0%, #008a47 50%, #00a85a 100%);
+}
+
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 98, 51, 0.1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
