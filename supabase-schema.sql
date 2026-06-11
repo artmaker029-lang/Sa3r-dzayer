@@ -35,6 +35,10 @@ CREATE TABLE prices (
   store_name TEXT,
   date TIMESTAMPTZ DEFAULT NOW(),
   submitted_by TEXT DEFAULT 'مجهول',
+  source TEXT DEFAULT 'user' CHECK (source IN ('jumia', 'ouedkniss', 'user')),
+  source_url TEXT,
+  verified BOOLEAN DEFAULT FALSE,
+  scraped_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -44,6 +48,9 @@ CREATE INDEX idx_products_category ON products(category_id);
 CREATE INDEX idx_prices_product ON prices(product_id);
 CREATE INDEX idx_prices_wilaya ON prices(wilaya_id);
 CREATE INDEX idx_prices_date ON prices(date DESC);
+CREATE INDEX idx_prices_source ON prices(source);
+CREATE INDEX idx_prices_verified ON prices(verified);
+CREATE INDEX idx_prices_scraped_at ON prices(scraped_at DESC);
 
 -- تفعيل Row Level Security
 ALTER TABLE wilayas ENABLE ROW LEVEL SECURITY;

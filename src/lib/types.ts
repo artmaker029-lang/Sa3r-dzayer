@@ -1,3 +1,5 @@
+export type PriceSource = "jumia" | "ouedkniss" | "user"
+
 export interface Wilaya {
   id: number
   name_ar: string
@@ -33,10 +35,23 @@ export interface Price {
   store_name?: string
   date: string
   submitted_by?: string
+  source: PriceSource
+  source_url?: string
+  verified: boolean
+  scraped_at?: string
   created_at: string
 }
 
 export interface PriceWithDetails extends Price {
   product?: Product
   wilaya?: Wilaya
+}
+
+export interface ScrapedProduct {
+  name: string
+  price: number
+  url: string
+  store?: string
+  wilaya?: string
+  source: PriceSource
 }

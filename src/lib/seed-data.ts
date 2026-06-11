@@ -1,5 +1,4 @@
 import type { Product, Price } from "./types"
-import { wilayas } from "./wilayas"
 
 export const sampleCategories = [
   { id: 1, name_ar: "مواد غذائية", name_fr: "Alimentation", icon: "🥖" },
@@ -44,6 +43,7 @@ export function generateSamplePrices(): Price[] {
   let id = 1
 
   const wilayaSubset = [16, 9, 6, 19, 31, 25, 23, 5, 13, 3, 26, 27, 7, 47]
+  const scrapedProducts = [2, 3, 4, 5, 6, 7, 12, 15, 16, 17, 22, 23, 24]
 
   for (const product of sampleProducts.slice(0, 15)) {
     const numPrices = Math.floor(Math.random() * 5) + 2
@@ -54,15 +54,20 @@ export function generateSamplePrices(): Price[] {
       const variance = Math.floor(Math.random() * 60) - 30
       const price = Math.max(5, basePrice + variance)
       const daysAgo = Math.floor(Math.random() * 60)
+      const isScraped = scrapedProducts.includes(product.id) && Math.random() > 0.6
 
       prices.push({
         id: id++,
         product_id: product.id,
         wilaya_id: wilayaId,
         price,
-        store_name: stores[Math.floor(Math.random() * stores.length)],
+        store_name: isScraped ? (Math.random() > 0.5 ? "Jumia" : "Ouedkniss") : stores[Math.floor(Math.random() * stores.length)],
         date: new Date(Date.now() - daysAgo * 86400000).toISOString(),
-        submitted_by: "مستخدم",
+        submitted_by: isScraped ? `سعر مؤكد - ${Math.random() > 0.5 ? "Jumia" : "Ouedkniss"}` : "مستخدم",
+        source: isScraped ? (Math.random() > 0.5 ? "jumia" as const : "ouedkniss" as const) : "user" as const,
+        source_url: isScraped ? `https://www.${Math.random() > 0.5 ? "jumia.dz" : "ouedkniss.com"}/product-${product.id}` : undefined,
+        verified: isScraped,
+        scraped_at: isScraped ? new Date(Date.now() - Math.floor(Math.random() * 3) * 86400000).toISOString() : undefined,
         created_at: new Date(Date.now() - daysAgo * 86400000).toISOString(),
       })
     }

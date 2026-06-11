@@ -49,6 +49,8 @@ export default function ProductDetailPage() {
     return ids.map((id) => ({ id, wilaya: getWilayaById(id) })).filter((w) => w.wilaya)
   }, [allPrices])
 
+  const verifiedCount = useMemo(() => allPrices.filter((p) => p.verified).length, [allPrices])
+
   if (!product) {
     return (
       <div className="max-w-6xl mx-auto px-4 py-16 text-center">
@@ -66,7 +68,7 @@ export default function ProductDetailPage() {
     <div className="max-w-6xl mx-auto px-4 py-8">
       <div className="mb-6">
         <Link href="/search" className="text-sm text-muted hover:text-primary transition-colors">
-          ← العودة إلى搜索结果
+          ← العودة إلى البحث
         </Link>
       </div>
 
@@ -103,6 +105,17 @@ export default function ProductDetailPage() {
             <p className="text-lg font-bold text-gray-900">{allPrices.length}</p>
           </div>
         </div>
+
+        {verifiedCount > 0 && (
+          <div className="mt-4 flex items-center gap-2 text-sm text-green-700 bg-green-50 rounded-lg px-4 py-2">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+            <span>
+              <strong>{verifiedCount}</strong> سعر مؤكد من <strong>Jumia</strong> و <strong>Ouedkniss</strong>
+            </span>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -142,7 +155,23 @@ export default function ProductDetailPage() {
         </div>
 
         <div className="lg:col-span-3">
-          <h2 className="font-bold mb-4">الأسعار</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-bold">الأسعار</h2>
+            <div className="flex items-center gap-3 text-xs">
+              <span className="flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-orange-500"></span>
+                Jumia
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+                Ouedkniss
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-gray-400"></span>
+                مستخدم
+              </span>
+            </div>
+          </div>
           <PriceTable prices={filteredPrices} />
         </div>
       </div>
